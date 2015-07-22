@@ -34,15 +34,14 @@ func apachePID() (pid []int) {
 
 func memoryUtil() (value int64, rate float32) {
 
-	pid := apachePID()
+	pids := apachePID()
 
-	total := make([]int64, len(pid))
+	total := make([]int64, len(pids))
 
 	var sum int64
 
-	for i := 0; i < len(pid); i++ {
-
-		k, _ := process.NewProcess(int32(pid[i]))
+	for i, pid := range pids {
+		k, _ := process.NewProcess(int32(pid))
 		rss, _ := k.MemoryInfo()
 
 		val := rss.RSS / 1024
